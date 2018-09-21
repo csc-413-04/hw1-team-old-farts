@@ -59,6 +59,7 @@ class SimpleServer {
         writer.println("");
 
         // Body of our response
+        // order of logic
         writer.println("<h1>Some cool response!</h1>");
 
         dong.close();
