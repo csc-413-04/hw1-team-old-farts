@@ -2,17 +2,9 @@ package simpleserver;
 
 // Initiate a Lazy Initialization Singleton class
 
-public static class Users {
-    private int userid;
-    private String username;
 
-    private Users(int userid, String username){
-        this.userid = userid;
-        this.username = username;
-    }
-}
 
-public static class Posts {
+ class Posts {
 
     private int userid;
     private int postid;
@@ -24,6 +16,17 @@ public static class Posts {
         this.data = data;
     }
 }
+
+class Users {
+    private int userid;
+    private String username;
+
+    private Users(int userid, String username){
+        this.userid = userid;
+        this.username = username;
+    }
+}
+
 public class Singleton {
 
     // Singleton instance
@@ -40,7 +43,5 @@ public class Singleton {
         }
         return instance;
     }
-
-
 
 }
