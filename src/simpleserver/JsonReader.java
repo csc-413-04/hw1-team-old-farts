@@ -44,6 +44,7 @@ public class JsonReader{
                     new FileReader("/Users/Nicholas/Documents/GitHub/hw1-team-old-farts/src/simpleserver/data.json"));
 
             Users userdata = gson.fromJson(br, Users.class);
+            Posts postdata = gson.fromJson(br, Posts.class);
         }
 
         catch(IOException e)
