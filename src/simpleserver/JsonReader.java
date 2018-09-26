@@ -41,7 +41,7 @@ public class JsonReader{
             Gson gson = new Gson();
 
             BufferedReader br = new BufferedReader(
-                    new FileReader("/Users/Nicholas/Documents/GitHub/hw1-team-old-farts/src/simpleserver/data.json"));
+                    new FileReader("./src/data/data.json"));
 
             Users userdata = gson.fromJson(br, Users.class);
             Posts postdata = gson.fromJson(br, Posts.class);
