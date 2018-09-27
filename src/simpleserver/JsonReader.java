@@ -66,7 +66,8 @@ public class JsonReader {
 
         BufferedReader br = new BufferedReader(
                 new FileReader("./src/data/data.json"));
-
+        BufferedReader br2 = new BufferedReader(
+                new FileReader("./src/data/data.json"));
 
         final Type usertypeOf = new TypeToken<Map<String, List<Usertemplate>>>() {
         }.getType();
@@ -75,22 +76,22 @@ public class JsonReader {
 
         // Creating maps for posts and users
         final Map<String, List<Usertemplate>> usermap = new Gson().fromJson(br, usertypeOf);
-        final Map<String, List<Posttemplate>> postmap = new Gson().fromJson(br, posttypeOf);
+        final Map<String, List<Posttemplate>> postmap = new Gson().fromJson(br2, posttypeOf);
 
         // Building Java object list from maps
         final List<Usertemplate> userlist = usermap.get("users");
 
         //Null pointerException, can't see it
-//        final List<Posttemplate> postlist = postmap.get("posts");
+        final List<Posttemplate> postlist = postmap.get("posts");
 
-        // Test object by printing userids
-        for (int i = 0; i < userlist.size(); i++) {
-            System.out.println(userlist.get(i).getUserid());
-        }
-
-//        for (int i = 0; i < postlist.size(); i++) {
-//            System.out.println(postlist.get(i).getUserid());
+//        // Test object by printing userids
+//        for (int i = 0; i < userlist.size(); i++) {
+//            System.out.println(userlist.get(i).getUserid());
 //        }
+//
+//        for (int i = 0; i < postlist.size(); i++) {
+//            System.out.println(postlist.get(i).getData());
+        }
 
     }
 
