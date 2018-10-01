@@ -25,14 +25,17 @@ class SimpleServer {
 
         InputStream stream = dong.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(stream));
+        String parseMe = null;
         try {
 
           // read the first line to get the request method, URI and HTTP version
           String line = in.readLine();
+          parseMe = line;
           System.out.println("----------REQUEST START---------");
           System.out.println(line);
           // read only headers
           line = in.readLine();
+          //parseMe = line;
           while (line != null && line.trim().length() > 0) {
             int index = line.indexOf(": ");
             if (index > 0) {
@@ -60,6 +63,7 @@ class SimpleServer {
 
         // Body of our response
         // order of logic
+        System.out.println(parseMe.split(" ")[1]);
         writer.println("<h1>Some cool response!</h1>");
 
         dong.close();
