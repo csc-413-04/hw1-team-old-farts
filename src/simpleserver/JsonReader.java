@@ -4,6 +4,7 @@ import com.google.gson.*;
 
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -101,33 +102,94 @@ class ReadPosts {
 
 public class JsonReader {
 
-    public static void main(String[] args) throws Exception {
+    //class fields
+    private ReadUser[] users;
+    private ReadPosts[] posts;
+    //the class instantiates a Gson object for it's use in the constructor
+    private Gson gson;
+    static JsonReader staticJsonReader;
 
-
-        Gson gson = new Gson();
-
-        BufferedReader br = new BufferedReader(
-                new FileReader("./src/data/data.json"));
-
-        JsonParser jsonParser = new JsonParser();
-        JsonObject obj = jsonParser.parse(br).getAsJsonObject();
-
-        ReadUser[] users = gson.fromJson(obj.get("users"), ReadUser[].class);
-        ReadPosts[] posts = gson.fromJson(obj.get("posts"), ReadPosts[].class);
-
-        ReadUser.loadAll();
-        ReadPosts.loadAllPosts();
-
-        //Add input here to the get methods to print out the data
-        String jsonString = gson.toJson(ReadUser.getUser(1));
-        String jsonString2 = gson.toJson(ReadPosts.getPost(1));
-
-        System.out.println(jsonString);
-        System.out.println(jsonString2);
-
+    static {
+        try {
+            staticJsonReader = new JsonReader();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-}
+    //Constructor
+   JsonReader() throws Exception {
+       //instantiating a Gson object, the library that processes the JSON into Java objects of a prescribed class
+       gson = new Gson();
+       //calling the method that reads the JSON data file
+       this.loadAllData();
+   }//end JsonReader Constructor
+
+    // static method
+    private void loadAllData() throws Exception{
+
+       Gson gson = new Gson();
+
+       //instantiating an object that allows us to read files
+       //the file path is hard coded for now, but it can be parameterized in the constructor
+       BufferedReader br = new BufferedReader(new FileReader("./src/data/data.json"));
+
+       //instantiating a JsonParser object from the GSON library that will translate the Json into a Java Object
+       JsonParser jsonParser = new JsonParser();
+       JsonObject asJsonObject = jsonParser.parse(br).getAsJsonObject();
+
+       //Transferring the JsonParser GSON object, into collections of Java objects of the two classes that we have constructed
+       //
+       users = gson.fromJson(asJsonObject.get("users"), ReadUser[].class);
+       posts = gson.fromJson(asJsonObject.get("posts"), ReadPosts[].class);
+
+       //calling a static method
+       ReadUser.loadAll();
+       ReadPosts.loadAllPosts();
+
+        }//end loadAllData method
+
+        //get methods
+
+        public String getUser(int userId ){
+            return gson.toJson(ReadUser.getUser(userId));
+        }
+
+        public String  getPost(int postId){
+            return gson.toJson(ReadPosts.getPost(postId));
+        }
+
+        public static void main(String[] args) throws Exception {
+
+        //testing that the updates still retrieve the data
+        System.out.println(JsonReader.staticJsonReader.getUser(11));
+        System.out.println(JsonReader.staticJsonReader.getPost(15));
+
+        /*
+        Test cases for the JSON Reader and ProcessFactory
+        */
+
+        //constructing a URL object for each of the endpoints
+        URL user = new URL("http://localhost:1299/user");
+        URL userWithId = new URL("http://localhost:1299/user?userid=7");
+        URL postsWithId = new URL("http://localhost:1299/posts?postid=12");
+        URL postsWithIdAndMaxLength = new URL("http://localhost:1299/posts?postid=11&maxlength=6");
+        URL invalidPathRequest = new URL("http://localhost:1299/index.html");
+
+        //Querying the Processor Factory
+        System.out.println("Query for user: " + user.getPath() +  "\n \t"  + new ProcessorFactory().process(user) + "\n");
+        System.out.println("Query for user with ID: " + userWithId.getPath() + "\n \t" + "?" + userWithId.getQuery() +
+                new ProcessorFactory().process(userWithId)+ "\n");
+        System.out.println("Query for posts with ID: "  + postsWithId.getPath() + "?" + postsWithId.getQuery() + "\n \t" +
+                new ProcessorFactory().process(postsWithId) + "\n");
+        System.out.println("Query for posts with ID and Max length: " + postsWithIdAndMaxLength.getPath() + "?" +
+                postsWithIdAndMaxLength.getQuery() + "\n \t" + new ProcessorFactory().process(postsWithIdAndMaxLength) + "\n");
+        System.out.print(("Query for invalid endpoint: " + invalidPathRequest.getPath() + "\n \t" +
+                new ProcessorFactory().process(invalidPathRequest)) + "\n");
+
+    }//end main
+
+}//end JsonReader Class
 
 
 
