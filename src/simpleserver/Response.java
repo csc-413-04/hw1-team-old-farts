@@ -22,6 +22,22 @@ class Data {
         this.data = data;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getEntries() {
+        return entries;
+    }
+
+    public void setEntries(int entries) {
+        this.entries = entries;
+    }
+
     // component is used for holding a list of Data for the data array Object
     public static class dataObject {
         int postid;
@@ -83,7 +99,7 @@ class Test {
     public static void main(String[] args) {
 
         List<Data.dataObject> jsonObject = new ArrayList<>();
-        Response response = new Response();
+        Response response = new Response(); // beginner test case
         jsonObject.add(new Data.dataObject(0, 1, "I lost my lightSaber, anyone seen it?"));
         jsonObject.add(new Data.dataObject(1, 0, "Found lightSaber, looking for owner"));
 
