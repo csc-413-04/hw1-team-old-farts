@@ -1,0 +1,16 @@
+{
+  "status": "Ok",
+  "entries": 2,
+  "data": [
+    {
+      "postid": 0,
+      "userid": 1,
+      "data": "I lost my lightSaber, anyone seen it?"
+    },
+    {
+      "postid": 1,
+      "userid": 0,
+      "data": "Found lightSaber, looking for owner"
+    }
+  ]
+}
