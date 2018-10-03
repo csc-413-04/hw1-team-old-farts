@@ -7,6 +7,7 @@
 package simpleserver;
 
 import java.net.URL;
+import com.google.gson.*;
 
 public class ProcessorFactory {
     static String response;

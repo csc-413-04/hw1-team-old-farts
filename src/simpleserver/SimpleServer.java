@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-class SimpleServer {
+class SimpleServer extends ProcessorFactory {
 
   public static void main(String[] args) throws IOException {
     ServerSocket ding;
@@ -63,8 +63,14 @@ class SimpleServer {
 
         // Body of our response
         // order of logic
+
+        /*Take response from factory, should be a string or Json object. Write fromJson, similar
+        to the end of Json Read
+        */
+        //Print response here using the writer print ln
+
         System.out.println(parseMe.split(" ")[1]);
-        writer.println("<h1>Some cool response!</h1>");
+        writer.println("<h1>PRINT JSON STRING HERE</h1>");  // Print JsonResponse String here
 
         dong.close();
       }
