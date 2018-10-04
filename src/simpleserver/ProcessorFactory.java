@@ -22,26 +22,26 @@ public class ProcessorFactory {
             case "/user":
                   //query for users
                   //update response with query results
-                  if(url.getQuery() != null){
+                  if(url.getQuery() != null && checkquery(url.getQuery(),"userid=")){
                       int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
                       response = response + ( new ProcessorForUser().process(id));
-                }
-                else if(url.getQuery() == null){
+                    }
+                    else if(url.getQuery() == null){
                     //Logic for if there's no query to get all users
-                  }
-                else {
-                    response = response + new ProcessorForUser().process();
+                    }
+                    else {
+                      response =  "{\"status\":\"ERROR\"}";
                     }
                   break;
 
             case "/posts":
                   //query for posts by id
-                  if(url.getQuery() != null){
+                  if(url.getQuery() != null && checkquery(url.getQuery(),"postid=")){
                       int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
                       response = response + new ProcessorForPost().process(id);
                   } else {
                       // update response with all posts
-                      response = response + new ProcessorForPost().process();
+                      response =  "{\"status\":\"ERROR\"}";
                   }
                   break;
 
@@ -51,8 +51,22 @@ public class ProcessorFactory {
                 break;
 
         }//end switch
+
+
         //returning the response String after it's been updating according to the request
         return response;
     }//end process method
 
+    //Method to check if the query is in the correct form
+    static private Boolean checkquery(String query, String contains){
+
+        if(query.toLowerCase().contains(contains)){
+            query.replace(contains,"");
+            if(query.matches(".*\\d+.*")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 }//end class
