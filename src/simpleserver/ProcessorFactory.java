@@ -25,7 +25,11 @@ public class ProcessorFactory {
                   if(url.getQuery() != null){
                       int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
                       response = response + ( new ProcessorForUser().process(id));
-                } else {
+                }
+                else if(url.getQuery() == null){
+                    //Logic for if there's no query to get all users
+                  }
+                else {
                     response = response + new ProcessorForUser().process();
                     }
                   break;
