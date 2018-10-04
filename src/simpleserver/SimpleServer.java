@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.google.gson.*;
+
 class SimpleServer extends ProcessorFactory {
 
   public static void main(String[] args) throws IOException {
@@ -69,8 +71,13 @@ class SimpleServer extends ProcessorFactory {
         */
         //Print response here using the writer print ln
 
+
         System.out.println(parseMe.split(" ")[1]);
-        writer.println("<h1>PRINT JSON STRING HERE</h1>");  // Print JsonResponse String here
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonElement jsonElement =  new JsonParser().parse(new FileReader("./src/data/response.json"));
+
+        writer.println(jsonElement);  // Print Response.json String here
 
         dong.close();
       }
