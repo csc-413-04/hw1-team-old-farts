@@ -3,15 +3,19 @@ package simpleserver;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 
 import com.google.gson.*;
 
-class SimpleServer extends ProcessorFactory {
+class SimpleServer {
 
   public static void main(String[] args) throws IOException {
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
+    //creating a variable that is available to the entire class so that it can be used for making queries
+    //that are sent to the factory
+    URL urlToUseForQuery = null;
     try {
       ding = new ServerSocket(1299);
       System.out.println("Opened socket " + 1299);
@@ -33,6 +37,8 @@ class SimpleServer extends ProcessorFactory {
           // read the first line to get the request method, URI and HTTP version
           String line = in.readLine();
           parseMe = line;
+          //constructing a URL object that will be passed to the ProcessorFactory for processing
+          urlToUseForQuery = new URL("http://localhost:1299"+parseMe.substring(parseMe.indexOf("/"), parseMe.indexOf(" HTTP")));
           System.out.println("----------REQUEST START---------");
           System.out.println(line);
           // read only headers
@@ -72,13 +78,15 @@ class SimpleServer extends ProcessorFactory {
         //Print response here using the writer print ln
 
 
-        System.out.println(parseMe.split(" ")[1]);
+        //System.out.println(parseMe.split(" ")[1]);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonElement jsonElement =  new JsonParser().parse(new FileReader("./src/data/response.json"));
 
-        writer.println(jsonElement);  // Print Response.json String here
+        //writer.println(jsonElement);  // Print Response.json String here
 
+        //printing the query to the factory
+        writer.println(ProcessorFactory.process(urlToUseForQuery));
         dong.close();
       }
     } catch (IOException e) {

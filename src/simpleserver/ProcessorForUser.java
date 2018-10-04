@@ -14,5 +14,9 @@ class ProcessorForUser extends ProcessorFactory {
         //JsonReader.staticJsonReader is a static object in the JsonReader class
         return JsonReader.staticJsonReader.getUser(userId);
     }//end createResponse Method
+    //process for any request for all items
+    protected String process(){
+        return JsonReader.staticJsonReader.toString();
+    }
 
 }//end class

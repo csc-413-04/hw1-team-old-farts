@@ -14,7 +14,7 @@ public class ProcessorFactory {
 
     protected static String process(URL url){
         //resetting the response for each new query
-        response = "empty response";
+        response = "";
 
         //switch executes the behavior based on the query that is requested
         switch (url.getPath()){
@@ -23,18 +23,22 @@ public class ProcessorFactory {
                   //query for users
                   //update response with query results
                   if(url.getQuery() != null){
-                      response = response + ( new ProcessorForUser().process(url.getQuery().indexOf("=")+1));
-                  }
-                  //response = response + ( new ProcessorForUser().process(url.getQuery().indexOf("=")+1));
+                      int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
+                      response = response + ( new ProcessorForUser().process(id));
+                } else {
+                    response = response + new ProcessorForUser().process();
+                    }
                   break;
 
             case "/posts":
                   //query for posts by id
                   if(url.getQuery() != null){
-                      response = response + ((new ProcessorForPost().process(url.getQuery().indexOf("="+1))));
+                      int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
+                      response = response + new ProcessorForPost().process(id);
+                  } else {
+                      // update response with all posts
+                      response = response + new ProcessorForPost().process();
                   }
-                  //update response with all posts
-                  //response = response + ((new ProcessorForPost().process(url.getQuery().indexOf("="+1))));
                   break;
 
             default:
