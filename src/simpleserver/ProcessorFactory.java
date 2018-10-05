@@ -7,6 +7,9 @@
 package simpleserver;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gson.*;
 
 public class ProcessorFactory {
@@ -36,10 +39,24 @@ public class ProcessorFactory {
 
             case "/posts":
                   //query for posts by id
-                  if(url.getQuery() != null && checkquery(url.getQuery(),"postid=")){
+                  if(url.getQuery() != null && checkquery(url.getQuery(),"postid=") && checkquery(url.getQuery(),"maxlength=")) {
+
+                      String maxlengthstring = getQueryMap(url.getQuery()).get("maxlength");
+                      String postidstring = getQueryMap(url.getQuery()).get("postid");
+
+                      int postid = Integer.parseInt(postidstring);
+                      int maxlength = Integer.parseInt(maxlengthstring);
+
+                      response = response + new ProcessorForPost().process(postid);
+                      response = response.substring(maxlength, Math.min(response.length(), maxlength));
+
+                  } else if (url.getQuery() != null && checkquery(url.getQuery(),"postid=")){
+
                       int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
                       response = response + new ProcessorForPost().process(id);
-                  } else {
+
+                  }
+                  else {
                       // update response with all posts
                       response =  "{\"status\":\"ERROR\"}";
                   }
@@ -51,8 +68,6 @@ public class ProcessorFactory {
                 break;
 
         }//end switch
-
-
         //returning the response String after it's been updating according to the request
         return response;
     }//end process method
@@ -68,5 +83,18 @@ public class ProcessorFactory {
             return false;
         }
         return false;
+    }
+
+    public static Map<String, String> getQueryMap(String query)
+    {
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<String, String>();
+        for (String param : params)
+        {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
     }
 }//end class

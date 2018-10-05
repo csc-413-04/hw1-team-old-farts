@@ -77,14 +77,6 @@ class SimpleServer {
         */
         //Print response here using the writer print ln
 
-
-        //System.out.println(parseMe.split(" ")[1]);
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonElement jsonElement =  new JsonParser().parse(new FileReader("./src/data/response.json"));
-
-        //writer.println(jsonElement);  // Print Response.json String here
-
         //printing the query to the factory
         writer.println(ProcessorFactory.process(urlToUseForQuery));
         dong.close();
