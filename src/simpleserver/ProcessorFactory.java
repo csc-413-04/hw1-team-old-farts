@@ -31,6 +31,7 @@ public class ProcessorFactory {
                     }
                     else if(url.getQuery() == null){
                     //Logic for if there's no query to get all users
+                      response =  "{\"status\":\"USERS\"}";
                     }
                     else {
                       response =  "{\"status\":\"ERROR\"}";
