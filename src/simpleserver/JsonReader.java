@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 // Generic class for users object
-class ReadUser {
+class ReadUser implements iData {
     // Use Java generics to avoid linear searching for users by id, makes it O(1) instead of O(n)
     private  static Map<Integer, ReadUser> useridDict = new HashMap<>();
     private static ArrayList<ReadUser> allUsers = new ArrayList<ReadUser>();
@@ -56,7 +56,7 @@ class ReadUser {
 }
 
 // Generic class for posts object
-class ReadPosts {
+class ReadPosts implements iData{
 
     private  static Map<Integer, ReadPosts> postDict = new HashMap<>();
     private static ArrayList<ReadPosts> allPosts = new ArrayList<>();
@@ -103,8 +103,8 @@ class ReadPosts {
 public class JsonReader {
 
     //class fields
-    private ReadUser[] users;
-    private ReadPosts[] posts;
+    public ReadUser[] users;
+    public ReadPosts[] posts;
     //the class instantiates a Gson object for it's use in the constructor
     private Gson gson;
     static JsonReader staticJsonReader;
@@ -139,7 +139,6 @@ public class JsonReader {
        JsonObject asJsonObject = jsonParser.parse(br).getAsJsonObject();
 
        //Transferring the JsonParser GSON object, into collections of Java objects of the two classes that we have constructed
-       //
        users = gson.fromJson(asJsonObject.get("users"), ReadUser[].class);
        posts = gson.fromJson(asJsonObject.get("posts"), ReadPosts[].class);
 
@@ -150,13 +149,12 @@ public class JsonReader {
         }//end loadAllData method
 
         //get methods
-
-        public String getUser(int userId ){
-            return gson.toJson(ReadUser.getUser(userId));
+        public Object getUser(int userId ){
+            return ReadUser.getUser(userId);
         }
 
-        public String  getPost(int postId){
-            return gson.toJson(ReadPosts.getPost(postId));
+        public Object getPost(int postId){
+            return ReadPosts.getPost(postId);
         }
 
         public static void main(String[] args) throws Exception {

@@ -38,6 +38,9 @@ class SimpleServer {
           String line = in.readLine();
           parseMe = line;
           //constructing a URL object that will be passed to the ProcessorFactory for processing
+          //string split index 1
+
+
           urlToUseForQuery = new URL("http://localhost:1299"+parseMe.substring(parseMe.indexOf("/"), parseMe.indexOf(" HTTP")));
           System.out.println("----------REQUEST START---------");
           System.out.println(line);

@@ -49,7 +49,8 @@ public class ProcessorFactory {
                       int maxlength = Integer.parseInt(maxlengthstring);
 
                       response = response + new ProcessorForPost().process(postid);
-                      response = response.substring(maxlength, Math.min(response.length(), maxlength));
+                      response = response.split("data:")[maxlength];
+
 
                   } else if (url.getQuery() != null && checkquery(url.getQuery(),"postid=")){
 
