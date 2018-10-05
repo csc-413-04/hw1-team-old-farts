@@ -15,30 +15,7 @@ class ReadUser implements iData {
     private  static Map<Integer, ReadUser> useridDict = new HashMap<>();
     private static ArrayList<ReadUser> allUsers = new ArrayList<ReadUser>();
 
-    public void setUsername(String username) {
-        this.username = username;
-        System.out.println(username);
-    }
-
-    private  String username;
-
-    public void setUserid(int userid) {
-        this.userid = userid;
-        System.out.println(userid);
-    }
-
     private  int userid;
-
-    public ReadUser(){
-        allUsers.add(this);
-    }
-
-    public ReadUser(String username, int userid){
-        this.username = username;
-        this.userid = userid;
-        allUsers.add(this);
-        useridDict.put(userid, this);
-    }
 
     public static ReadUser getUser(int userid){
         return useridDict.get(userid);
@@ -61,24 +38,7 @@ class ReadPosts implements iData{
     private  static Map<Integer, ReadPosts> postDict = new HashMap<>();
     private static ArrayList<ReadPosts> allPosts = new ArrayList<>();
 
-    public void setPostid(int postid){
-        this.postid = postid;
-        System.out.println(postid);
-    }
-
     private int postid;
-
-    public void setUseridP(int userid){
-        this.userid = userid;
-        System.out.print(userid);
-    }
-
-    private int userid;
-
-    public void setData(String data){
-        this.data = data;
-        System.out.println(data);
-    }
 
     private String data;
 
@@ -146,7 +106,7 @@ public class JsonReader {
        ReadUser.loadAll();
        ReadPosts.loadAllPosts();
 
-        }//end loadAllData method
+    }//end loadAllData method
 
         //get methods
         public Object getUser(int userId ){
@@ -157,35 +117,7 @@ public class JsonReader {
             return ReadPosts.getPost(postId);
         }
 
-        public static void main(String[] args) throws Exception {
 
-        //testing that the updates still retrieve the data
-        System.out.println(JsonReader.staticJsonReader.getUser(11));
-        System.out.println(JsonReader.staticJsonReader.getPost(15));
-
-        /*
-        Test cases for the JSON Reader and ProcessFactory
-        */
-
-        //constructing a URL object for each of the endpoints
-        URL user = new URL("http://localhost:1299/user");
-        URL userWithId = new URL("http://localhost:1299/user?userid=7");
-        URL postsWithId = new URL("http://localhost:1299/posts?postid=12");
-        URL postsWithIdAndMaxLength = new URL("http://localhost:1299/posts?postid=11&maxlength=6");
-        URL invalidPathRequest = new URL("http://localhost:1299/index.html");
-
-        //Querying the Processor Factory
-        System.out.println("Query for user: " + user.getPath() +  "\n \t"  + new ProcessorFactory().process(user) + "\n");
-        System.out.println("Query for user with ID: " + userWithId.getPath() + "\n \t" + "?" + userWithId.getQuery() +
-                new ProcessorFactory().process(userWithId)+ "\n");
-        System.out.println("Query for posts with ID: "  + postsWithId.getPath() + "?" + postsWithId.getQuery() + "\n \t" +
-                new ProcessorFactory().process(postsWithId) + "\n");
-        System.out.println("Query for posts with ID and Max length: " + postsWithIdAndMaxLength.getPath() + "?" +
-                postsWithIdAndMaxLength.getQuery() + "\n \t" + new ProcessorFactory().process(postsWithIdAndMaxLength) + "\n");
-        System.out.print(("Query for invalid endpoint: " + invalidPathRequest.getPath() + "\n \t" +
-                new ProcessorFactory().process(invalidPathRequest)) + "\n");
-
-    }//end main
 
 }//end JsonReader Class
 
