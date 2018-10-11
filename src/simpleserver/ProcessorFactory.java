@@ -15,19 +15,21 @@ import com.google.gson.*;
 public class ProcessorFactory {
     static String response;
 
-    protected static String process(URL url){
+    protected static String process(URL url) throws Exception {
         //resetting the response for each new query
-        response = "";
+       response = "";
 
         //switch executes the behavior based on the query that is requested
         switch (url.getPath()){
+
 
             case "/user":
                   //query for users
                   //update response with query results
                   if(url.getQuery() != null && checkquery(url.getQuery(),"userid=")){
                       int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
-                      response = response + ( new ProcessorForUser().process(id));
+                    //  response = response + ( new ProcessorForUser().process(id));
+
                     }
                     else if(url.getQuery() == null){
                     //Logic for if there's no query to get all users
@@ -48,14 +50,12 @@ public class ProcessorFactory {
                       int postid = Integer.parseInt(postidstring);
                       int maxlength = Integer.parseInt(maxlengthstring);
 
-                      response = response + new ProcessorForPost().process(postid);
-                      response = response.split("data:")[maxlength];
-
+                    //  response = response + new ProcessorForPost().process(postid);
 
                   } else if (url.getQuery() != null && checkquery(url.getQuery(),"postid=")){
 
                       int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
-                      response = response + new ProcessorForPost().process(id);
+                    //  response = response + new ProcessorForPost().process(id);
 
                   }
                   else {

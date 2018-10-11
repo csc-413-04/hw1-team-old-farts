@@ -1,17 +1,21 @@
 package simpleserver;
 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 
-import com.google.gson.*;
 
 class SimpleServer {
 
   public static void main(String[] args) throws IOException {
     ServerSocket ding;
     Socket dong = null;
+    String parseMe = null;
     String resource = null;
     //creating a variable that is available to the entire class so that it can be used for making queries
     //that are sent to the factory
@@ -31,17 +35,12 @@ class SimpleServer {
 
         InputStream stream = dong.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(stream));
-        String parseMe = null;
+
         try {
 
           // read the first line to get the request method, URI and HTTP version
           String line = in.readLine();
           parseMe = line;
-          //constructing a URL object that will be passed to the ProcessorFactory for processing
-          //string split index 1
-
-
-          urlToUseForQuery = new URL("http://localhost:1299"+parseMe.substring(parseMe.indexOf("/"), parseMe.indexOf(" HTTP")));
           System.out.println("----------REQUEST START---------");
           System.out.println(line);
           // read only headers
@@ -72,21 +71,23 @@ class SimpleServer {
         writer.println("Content-type: text/html");
         writer.println("");
 
-        // Body of our response
-        // order of logic
-
-        /*Take response from factory, should be a string or Json object. Write fromJson, similar
-        to the end of Json Read
-        */
-        //Print response here using the writer print ln
-
         //printing the query to the factory
-        writer.println(ProcessorFactory.process(urlToUseForQuery));
+//        String [] requestParts = parseMe.split(" ");
+//        String endpoint = requestParts[1];
+
+        urlToUseForQuery = new URL("http://localhost:1299"+parseMe.substring(parseMe.indexOf("/"), parseMe.indexOf(" HTTP")));
+
+        writer.println(ProcessFactoryB.process(urlToUseForQuery));
+
+//        ServerProcessor serverProcessor = ProcessFactoryB.getProcessor(endpoint);
+//        writer.println(serverProcessor.process(endpoint));
         dong.close();
       }
     } catch (IOException e) {
       System.out.println("Error opening socket");
       System.exit(1);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }

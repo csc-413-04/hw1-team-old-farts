@@ -92,28 +92,16 @@ public class Response {
     }
 }
 
-class Test {
-
-    public static void main(String[] args) throws Exception {
-
-        JsonReader reader = new JsonReader();
-        Response response = new Response("OK",reader.posts);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(response);
-        System.out.println(json);
-
-//        List<Data.dataObject> jsonObject = new ArrayList<>();
-//        Response response = new Response(); // beginner test case
-//        jsonObject.add(new Data.dataObject(0, 1, "I lost my lightSaber, anyone seen it?"));
-//        jsonObject.add(new Data.dataObject(1, 0, "Found lightSaber, looking for owner"));
+//class Test {
 //
+//    public static void main(String[] args) throws Exception {
+//
+//        Database reader = new Database();
+//        Response response = new Response("OK",reader.posts);
 //        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        Data datah = new Data("Ok", 2 , jsonObject);
-//
-//        String json = gson.toJson(datah);
-//
+//        String json = gson.toJson(response);
 //        System.out.println(json);
-
-    }
-}
+//
+//    }
+//}
 
