@@ -11,6 +11,11 @@ class ReadUser implements iData {
 
     private  int userid;
 
+    //this method seems to have been missed when it was copied form the JSONReader class
+    public ReadUser (){
+        allUsers.add(this);
+    }
+
     public static ReadUser getUser(int userid){
         return useridDict.get(userid);
     }
