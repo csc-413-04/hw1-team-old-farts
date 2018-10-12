@@ -14,12 +14,15 @@ import java.util.Map;
 
 
 //removing access modifier to restrict access to class and package
-class ProcessorForUser extends ProcessorFactory {
+class ProcessorForUser extends ProcessFactoryB {
     static String response;
+
 
     //method that processes the query for a userId
     protected static String processUser(URL url) throws Exception {
 
+        response = "";
+        Object responseObj = null;
         Gson gson = new Gson();
 
         //query for users
@@ -27,7 +30,8 @@ class ProcessorForUser extends ProcessorFactory {
         if(url.getQuery() != null && checkquery(url.getQuery(),"userid=")){
             int id = Integer.parseInt(url.getQuery().substring((url.getQuery().indexOf("=")+1)));
 
-            response = gson.toJson(Database.getUser(id));
+            responseObj =  Database.getUser(id);
+            response = response + gson.toJson(Database.getUser(id));
 
         }
         else if(url.getQuery() == null){
@@ -35,7 +39,7 @@ class ProcessorForUser extends ProcessorFactory {
             response =  "{\"status\":\"USERS\"}";
         }
         else {
-            response =  "{\"status\":\"IS IT HERE\"}";
+            response =  "{\"status\":\"ERROR\"}";
         }
         return response;
     }//end createResponse Method

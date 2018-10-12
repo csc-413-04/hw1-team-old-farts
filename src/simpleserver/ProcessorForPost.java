@@ -11,12 +11,15 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.*;
 //removing access modifier to restrict access to class and package
-class ProcessorForPost extends ProcessorFactory{
+class ProcessorForPost extends ProcessFactoryB {
 
     //method that processes the query for a postId
     protected static String processPost(URL url ) throws Exception {
 
+        response = "";
+        Object responseObj = null;
         Gson gson = new Gson();
+
 
         //query for posts by id
         if((url.getQuery() != null) && checkquery(url.getQuery(), "postid=") && checkquery(url.getQuery(), "maxlength=")) {
@@ -26,8 +29,6 @@ class ProcessorForPost extends ProcessorFactory{
 
             int postid = Integer.parseInt(postidstring);
             int maxlength = Integer.parseInt(maxlengthstring);
-
-
 
             response = gson.toJson(Database.getPost(postid));
 

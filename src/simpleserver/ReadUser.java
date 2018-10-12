@@ -7,7 +7,7 @@ import java.util.Map;
 class ReadUser implements iData {
     // Use Java generics to avoid linear searching for users by id, makes it O(1) instead of O(n)
     private  static Map<Integer, ReadUser> useridDict = new HashMap<>();
-    private static ArrayList<ReadUser> allUsers = new ArrayList<ReadUser>();
+    private static ArrayList<ReadUser> allUsers = new ArrayList<>();
 
     private  int userid;
 
